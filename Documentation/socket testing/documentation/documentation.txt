@@ -1,0 +1,7 @@
+i used the script inside the client folder above as a client side to test the socket 
+instructions to run the script 
+        1.insert two IDS for testing purposes one for the user that submitted the complaint and another one for another user
+        2.open the terminal 
+        3.run the following command node client.js
+        4.run the main project you should see a message in the terminal user connected with the user ID
+        5.change the complaint status the other side (client) should get a message containing the complaint id and the new status 
