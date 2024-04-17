@@ -31,7 +31,6 @@ export class CategoriesController {
     return this.categoriesService.create(CreateAndUpdateCategoryDto, userId);
   }
 
-  //!USERS
   @Get()
   findAll(@Query() query: Record<string, string>) {
     return this.categoriesService.findAll(+query.limit, +query.page);

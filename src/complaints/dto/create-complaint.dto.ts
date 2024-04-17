@@ -11,10 +11,9 @@ export class CreateComplaintDto {
     @IsString()
     description: string;
 
-    // @IsMongoId()
-    // categoryIds: [mongoose.Types.ObjectId];
+
     @IsArray()
-    @Transform(({ value }) => value.map((id: mongoose.Types.ObjectId) => id.toString())) // Transform Types.ObjectId to string
+    @Transform(({ value }) => value.map((id: mongoose.Types.ObjectId) => id.toString()))
     @IsMongoId({ each: true })
     categoryIds: string[];
   

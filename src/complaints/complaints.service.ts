@@ -92,7 +92,6 @@ export class ComplaintsService {
         },
       ],
     ];
-    console.log(aggregation);
     
     const result = await this.ComplaintModel.aggregate(aggregation);
     if (!result) {
@@ -104,9 +103,7 @@ export class ComplaintsService {
   async updateComplaintStatus(id: Types.ObjectId, newStatus: string) {
     const _id = new mongoose.Types.ObjectId(id);
     const result = await this.ComplaintModel.findOne({ _id });
-    // const userId = JSON.stringify(result.createdBy);
     const userId = result.createdBy;
-    console.log(typeof userId);
 
     const complaintId = id;
     const updatedStatus = { status: newStatus };

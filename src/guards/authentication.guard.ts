@@ -36,7 +36,6 @@ export class AuthenticationGuard implements CanActivate {
         secret: secretKey,
       });
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException();
     }
 

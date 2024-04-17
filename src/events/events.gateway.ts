@@ -20,7 +20,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
   }
 
   @SubscribeMessage('joinRoom')
@@ -29,7 +28,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   notifyUser(userId: any, data: any) {
-    console.log('notifiying the user!');
     
     this.server.to(userId).emit('statusChanged', data);
 }

@@ -71,7 +71,6 @@ refreshToken(@Body()body: any){
   @SkipAuth()
   @Put('verify-forgot-password')
   verifyForgetPassword(@Body() otpVerificationDto: otpVerificationDto) {
-    console.log('inside');
 
     return this.usersService.verifyForgotPasswordOTP(otpVerificationDto);
   }

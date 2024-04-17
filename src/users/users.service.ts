@@ -64,7 +64,6 @@ async refreshToken({ refreshToken }) {
   const oldToken = await this.RefreshTokenModel.findOneAndDelete({
     refreshToken,
   });
-  //Check if token is valid and not expired
   if (oldToken && oldToken?.expiryDate > new Date()) {
     return this.generateTokenAndRefreshToken(oldToken.userId);
   }
@@ -113,7 +112,6 @@ async refreshToken({ refreshToken }) {
     }
 
     if (userFound.isLocked) {
-      console.log('isLocked');
       throw new UnauthorizedException();
     }
 
@@ -122,13 +120,8 @@ async refreshToken({ refreshToken }) {
       await this.lockUser(userId);
       throw new UnauthorizedException();
     }
-    console.log(userFound.email)
     
     const token = await this.generateTokenAndRefreshToken(userFound._id.toString())
-    // const token = this.JwtService.sign({
-    //   email: userFound.email,
-    //   userId: userFound._id.toString(),
-    // });
     return {
       token,
       userId: userFound._id.toString(),
@@ -145,7 +138,6 @@ async refreshToken({ refreshToken }) {
   }
 
   async getUserById(_id: Types.ObjectId) {
-    console.log('inside the user');
 
     const user = await this.UserModel.findById(_id);
     if (!user) {
@@ -231,23 +223,19 @@ async refreshToken({ refreshToken }) {
     const verificationToken = otpDto.verificationToken;
     const userFound = await this.UserModel.findOne({ email });
     if (!userFound) {
-      console.log('not found');
 
       throw new ForbiddenException();
     }
     if (userFound.isLocked) {
-      console.log('locked');
 
       throw new ForbiddenException();
     }
 
     if (userFound.forgetPasswordOtpAttemptsLeft === 0) {
-      console.log('no attempts left');
 
       await this.lockUser(userFound._id);
       throw new ForbiddenException();
     }
-    console.log(verificationToken, userFound._id, OTP_TYPE.FORGOT_PASSWORD);
 
     const otpRecord = await this.OtpModel.findOneAndDelete({
       verificationToken,
@@ -255,7 +243,6 @@ async refreshToken({ refreshToken }) {
       otpType: OTP_TYPE.FORGOT_PASSWORD,
     });
     if (!otpRecord) {
-      console.log('no otp record');
 
       throw new ForbiddenException();
     }
@@ -274,7 +261,6 @@ async refreshToken({ refreshToken }) {
       },
       { upsert: true },
     );
-    console.log('you have to send the email for the second time');
     const emailConfig = {
       host: this.configService.get('host'),
       port: this.configService.get('emailPort'),
@@ -302,7 +288,6 @@ async refreshToken({ refreshToken }) {
   }
 
   async verifyForgotPasswordOTP(otpVerificationDto: otpVerificationDto) {
-    console.log(otpVerificationDto);
 
     const verificationToken = otpVerificationDto.verificationToken;
     const otp = otpVerificationDto.otp;
@@ -315,7 +300,6 @@ async refreshToken({ refreshToken }) {
     });
 
     if (!otpRecord) {
-      console.log('no otp found');
 
       throw new ForbiddenException();
     }
@@ -333,7 +317,6 @@ async refreshToken({ refreshToken }) {
       );
       const userFound = await this.UserModel.findById(otpRecord.userId);
       if (!userFound) {
-        console.log('no user found');
 
         throw new ForbiddenException();
       }
@@ -361,11 +344,9 @@ async refreshToken({ refreshToken }) {
   }
 
   async retreiveUserRole(userId: string) {
-    // console.log(email);
 
     const userFound = await this.UserModel.findOne({ _id: userId });
     if (!userFound) {
-      console.log('retreiveEmail');
 
       throw new NotFoundException();
     }

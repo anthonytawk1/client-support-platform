@@ -21,7 +21,6 @@ export class ComplaintsController {
   constructor(private readonly complaintsService: ComplaintsService) {}
 
   @Post()
-  //!validate using the enums
   create(@Body() createComplaintDto: CreateComplaintDto, @Req() request: any) {
     const userId: Types.ObjectId = request.user.userId;
     return this.complaintsService.create(createComplaintDto, userId);
@@ -40,7 +39,6 @@ export class ComplaintsController {
     );
   }
 
-  //!Admin route
   @Roles(['admin'])
   @UseGuards(AuthorizationGuard)
   @Get()
@@ -57,7 +55,6 @@ export class ComplaintsController {
     return this.complaintsService.getUserComplaintById(userId, complaintId);
   }
 
-  //!Admin Route
   @Roles(['admin', 'employee'])
   @UseGuards(AuthorizationGuard)
   @Put(':id')
@@ -66,7 +63,6 @@ export class ComplaintsController {
     @Body() body: any,
   ) {
     const newStatus = body.status
-    // Object.values(status)[0];
     return this.complaintsService.updateComplaintStatus(id, newStatus);
   }
 

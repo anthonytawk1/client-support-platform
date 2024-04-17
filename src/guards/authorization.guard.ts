@@ -17,16 +17,12 @@ export class AuthorizationGuard implements CanActivate {
       context.getClass(),
       context.getHandler(),
     ]);
-    console.log('authorization Guard the reuired roles are: ', requiredRoles);
 
     const userRole = role;
-    console.log(requiredRoles.length);
     
     for (let i = 0; i < requiredRoles.length; i++) {
-      console.log('aaa', requiredRoles[i]);
 
       if (requiredRoles[i] === userRole) {
-        console.log(true);
         
         return true;
       }
